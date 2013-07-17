@@ -6,6 +6,7 @@
     <groupId>com.github</groupId>
     <artifactId>maven-angular</artifactId>
     <version>0.1-snapshot</version>
+    <packaging>pom</packaging>
     <build>
         <pluginManagement>
             <plugins>
@@ -57,7 +58,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
+                <!--<plugin>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.3.1</version>
                     <executions>
@@ -76,7 +77,7 @@
                             <phase>none</phase>
                         </execution>
                     </executions>
-                </plugin>
+                </plugin>-->
             </plugins>
         </pluginManagement>
         <plugins>
@@ -151,6 +152,14 @@
                                 </echo>
                                 <exec executable="cmd" dir="${project.basedir}" osfamily="windows"
                                       resultproperty="cmdresult">
+                                    <arg line="/c grunt --no-color > grunt.status "/>
+                                </exec>
+                                <exec executable="bash" dir="${project.basedir}" osfamily="unix"
+                                      resultproperty="cmdresult">
+                                    <arg line="grunt --no-color > grunt.status"/>
+                                </exec>
+                                <exec executable="cmd" dir="${project.basedir}" osfamily="windows"
+                                      resultproperty="cmdresult">
                                     <arg line="/c grunt test  > grunt.status "/>
                                 </exec>
                                 <exec executable="bash" dir="${project.basedir}" osfamily="unix"
@@ -172,7 +181,27 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- this is used for inheritance merges -->
+                        <phase>package</phase>
+                        <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
