@@ -3,6 +3,9 @@ module.exports = function (grunt) {
     var LIVERELOAD_PORT = 35729;
     var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
     var mountFolder = function (connect, dir) {
+        if (dir === '<%= config.app %>/main') {
+            console.log(require('path').resolve(dir));
+        }
         return connect.static(require('path').resolve(dir));
     };
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -40,7 +43,7 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [lrSnippet,
                             mountFolder(connect, '.tmp'),
-                            mountFolder(connect, config.app)
+                            mountFolder(connect, 'src/main')
                         ];
                     }
                 }
@@ -77,8 +80,7 @@ module.exports = function (grunt) {
                         dot: true,
                         src: [
                             '.tmp',
-                            '<%= config.dist %>/*',
-                            '!<%= config.dist %>/.git*'
+                            '<%= config.dist %>'
                         ]
                     }
                 ]
@@ -102,7 +104,7 @@ module.exports = function (grunt) {
             }
         },
         usemin: {
-            html: ['<%= config.dist %>/templates/**/.html','<%= config.dist %>/*.html'],
+            html: ['<%= config.dist %>/templates/**/.html', '<%= config.dist %>/*.html'],
             css: ['<%= config.dist %>/styles/**/*.css'],
             options: {
                 dirs: ['<%= config.dist %>']
@@ -151,24 +153,26 @@ module.exports = function (grunt) {
         },
         copy: {
             dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= config.app %>/main',
-                    dest: '<%= config.dist %>',
-                    src: [
-                        '*.{ico,png,txt}',
-                        'resources/images/{,*/}*.{gif,webp,svg,jpg}',
-                        'js/lib/**/*'
-                    ]
-                }, {
-                    expand: true,
-                    cwd: '.tmp/images',
-                    dest: '<%= config.dist %>/images',
-                    src: [
-                        'generated/*'
-                    ]
-                }]
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: '<%= config.app %>/main',
+                        dest: '<%= config.dist %>',
+                        src: [
+                            '*.{ico,png,txt}',
+                            'js/lib/**/*'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        cwd: '.tmp/images',
+                        dest: '<%= config.dist %>/images',
+                        src: [
+                            'generated/*'
+                        ]
+                    }
+                ]
             }
         },
         concurrent: {
@@ -220,12 +224,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+            grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
         }
         grunt.task.run([
             'clean:server',
             'connect:livereload',
-            'open',
             'watch'
         ]);
     });
@@ -248,10 +251,6 @@ module.exports = function (grunt) {
         'usemin'
     ]);
 
-    grunt.registerTask('default', [
-        'jshint',
-        'test',
-        'build'
-    ]);
+    grunt.registerTask('default', ['build']);
 };
 

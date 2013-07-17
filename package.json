@@ -1,6 +1,6 @@
 {
   "name": "maven-angular",
-  "version": "0.0.0",
+  "version": "0.0.1-SNAPSHOT",
   "dependencies": {
     "grunt-karma": "~0.4.5"
   },
@@ -23,7 +23,9 @@
     "grunt-concurrent": "~0.3.0",
     "matchdep": "~0.1.2",
     "connect-livereload": "~0.2.0",
-    "grunt-ngmin": "~0.0.2"
+    "grunt-ngmin": "~0.0.2",
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-maven-tasks": "~1.0.2"
   },
   "engines": {
     "node": ">=0.8.0"
