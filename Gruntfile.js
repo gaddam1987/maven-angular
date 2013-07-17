@@ -138,8 +138,8 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= config.app %>/main/resources/',
-                        src: ['templates/**/*.html', 'templates/**/*.html'],
+                        cwd: '<%= config.app %>/main/',
+                        src: ['resources/templates/**/*.html'],
                         dest: '<%= config.dist %>'
                     },
                     {   expand: true,
@@ -218,6 +218,11 @@ module.exports = function (grunt) {
                         '!<%= config.dist %>/js/lib/**/*.js'
                     ]
                 }
+            }
+        } ,
+        open: {
+            server: {
+                url: 'http://localhost:<%= connect.options.port %>'
             }
         }
     });

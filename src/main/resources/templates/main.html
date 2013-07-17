@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html data-ng-app="">
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    <!-- Place holder -->
-    <div data-ng-view="">
-
-    </div>
+<div class="container">
+    Name:
+    <br />
+    <input type="text" data-ng-model="name"/> {{ name }}
+    <br />
+    <ul>
+        <li data-ng-repeat= "awesome in awesomeThings">{{ awesome }}</li>
+    </ul>
 </div>
-</body>
-</html>
