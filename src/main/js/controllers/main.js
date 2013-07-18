@@ -1,8 +1,9 @@
-var demoApp = angular.module('nareshApp.Controller',[]);
-demoApp.controller('MainController', ['$scope', function($scope) {
+var demoApp = angular.module('nareshApp');
+demoApp.controller('MainController', ['$scope', 'ExampleService', function ($scope, ExampleService) {
     $scope.awesomeThings = [
         'Naresh',
         'NAresh',
         'NAResh'
     ];
+    ExampleService.sayHello();
 }]);
